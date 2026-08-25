@@ -1,0 +1,463 @@
+<title>Toronto Flight Watch</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  :root {
+    --teal: #0d6d64;
+    --teal-deep: #084d47;
+    --teal-tint: #e2efec;
+    --gold: #a97a1f;
+    --gold-tint: #f6ecd6;
+    --sage: #5f7a4f;
+    --sage-tint: #e9efe2;
+    --purple: #63508c;
+    --purple-tint: #ece7f4;
+    --ink: #211d17;
+    --ink-soft: #514a3d;
+    --muted: #7a715f;
+    --paper: #faf6ee;
+    --paper-raised: #ffffff;
+    --paper-sunken: #f1ead9;
+    --line: #ddd0b0;
+    --line-soft: #ebe2c9;
+    --danger: #a13b2b;
+    --danger-tint: #f7e6e0;
+    --font-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+    --font-body: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+    --font-mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+  }
+
+  * { box-sizing: border-box; }
+  html { background: var(--paper); }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 15.5px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--teal-deep); }
+  a:focus-visible, button:focus-visible, details summary:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+
+  .wrap { max-width: 900px; margin: 0 auto; padding: 0 20px 64px; }
+
+  /* ---------- Header ---------- */
+  header.top { padding: 36px 0 22px; border-bottom: 1px solid var(--line); margin-bottom: 26px; }
+  .eyebrow {
+    font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.09em;
+    text-transform: uppercase; color: var(--teal); margin: 0 0 8px;
+  }
+  h1.title {
+    font-family: var(--font-display); font-weight: 700; font-size: clamp(26px, 4.5vw, 36px);
+    letter-spacing: -0.01em; margin: 0 0 12px; text-wrap: balance; color: var(--ink);
+  }
+  .meta-row {
+    display: flex; flex-wrap: wrap; gap: 8px 20px;
+    font-family: var(--font-mono); font-size: 12px; color: var(--muted);
+  }
+  .meta-row strong { color: var(--ink-soft); font-weight: 600; }
+
+  /* ---------- How to book — one compact strip ---------- */
+  .howto {
+    display: flex; flex-wrap: wrap; gap: 8px 22px; align-items: center;
+    background: var(--teal-tint); border-radius: 8px; padding: 12px 18px;
+    font-size: 13px; color: var(--ink-soft); margin-bottom: 40px;
+  }
+  .howto b { color: var(--teal-deep); }
+  .howto code { font-family: var(--font-mono); font-size: 0.94em; }
+
+  /* ---------- Section scaffolding ---------- */
+  section { margin: 0 0 40px; }
+  .section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+  h2.section-title { font-family: var(--font-display); font-weight: 700; font-size: 20px; margin: 0; color: var(--ink); }
+  .section-note { font-size: 12.5px; color: var(--muted); }
+
+  /* ---------- Trip cards ---------- */
+  .trip-card { background: var(--paper-raised); border: 1px solid var(--line); border-radius: 12px; padding: 18px 22px; margin-bottom: 14px; }
+  .trip-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 2px; }
+  .trip-head h3 { font-family: var(--font-display); font-size: 18px; margin: 0; color: var(--ink); }
+  .badge {
+    font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.04em; text-transform: uppercase;
+    padding: 3px 9px; border-radius: 100px; white-space: nowrap;
+  }
+  .badge-blocked { background: var(--danger-tint); color: var(--danger); }
+  .badge-window { background: var(--gold-tint); color: var(--gold); }
+  .trip-dates { font-family: var(--font-mono); font-size: 12px; color: var(--muted); margin-bottom: 12px; }
+
+  .option-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 620px) { .option-grid { grid-template-columns: 1fr; } }
+
+  .option { background: var(--paper-sunken); border-radius: 9px; padding: 12px 14px; }
+  .option.ideal { background: var(--purple-tint); }
+  .option-label {
+    font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 5px;
+  }
+  .option.ideal .option-label { color: var(--purple); }
+  .figure { font-family: var(--font-mono); font-weight: 600; font-size: 18px; color: var(--ink); font-variant-numeric: tabular-nums; }
+  .figure-sub { font-size: 12px; color: var(--ink-soft); margin: 2px 0 6px; }
+  .date-stamp { font-family: var(--font-mono); font-size: 10.5px; color: var(--muted); margin: 1px 0 6px; }
+  .cta { font-family: var(--font-mono); font-size: 12px; font-weight: 600; color: var(--teal-deep); text-decoration: none; border-bottom: 1px solid var(--teal); }
+  .cta:hover { color: var(--teal); }
+
+  details.src { margin-top: 6px; }
+  details.src summary {
+    cursor: pointer; font-family: var(--font-mono); font-size: 10.5px; color: var(--muted);
+    list-style: none; display: inline-block;
+  }
+  details.src summary::-webkit-details-marker { display: none; }
+  details.src summary::before { content: "Source & redeem ▸ "; }
+  details.src[open] summary::before { content: "Source & redeem ▾ "; }
+  details.src p { font-size: 12px; color: var(--muted); margin: 6px 0 0; line-height: 1.5; }
+
+  .flag-line {
+    margin-top: 10px; padding: 8px 12px; background: var(--danger-tint); border-radius: 7px;
+    font-size: 12.5px; color: #6e2a1e;
+  }
+  .vac-days { font-size: 11.5px; color: var(--muted); margin-top: 8px; font-family: var(--font-mono); }
+
+  /* Asiana warning */
+  .asiana-warning {
+    background: var(--purple-tint); border: 1.5px solid var(--purple); border-radius: 9px;
+    padding: 10px 16px; margin: 10px 0 12px; font-size: 13px; color: var(--ink-soft);
+  }
+  .asiana-warning b { color: var(--purple); }
+
+  /* ---------- Premium cabin ---------- */
+  .cabin-card {
+    background: var(--paper-raised); border: 1px solid var(--line); border-radius: 10px;
+    padding: 12px 18px; margin-bottom: 8px; display: grid;
+    grid-template-columns: 130px 1fr auto; gap: 14px; align-items: center;
+  }
+  @media (max-width: 620px) { .cabin-card { grid-template-columns: 1fr auto; } .cabin-card .cabin-detail { grid-column: 1 / -1; } }
+  .cabin-route { font-family: var(--font-display); font-weight: 700; font-size: 15.5px; }
+  .cabin-seat { font-family: var(--font-mono); font-size: 10.5px; color: var(--muted); margin-top: 2px; }
+  .cabin-detail .figure { font-size: 15px; }
+  .cabin-detail .figure-sub { margin: 1px 0 0; }
+  .tier {
+    font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.04em; text-transform: uppercase;
+    padding: 4px 10px; border-radius: 100px; white-space: nowrap;
+  }
+  .tier-good { background: var(--sage-tint); color: var(--sage); }
+  .tier-watch { background: var(--gold-tint); color: var(--gold); }
+  .tier-longshot { background: var(--paper-sunken); color: var(--ink-soft); }
+
+  /* ---------- All time lows table ---------- */
+  .lows-table-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid var(--line); }
+  .lows-table { width: 100%; border-collapse: collapse; background: var(--paper-raised); }
+  .lows-table th, .lows-table td { padding: 10px 16px; text-align: left; border-bottom: 1px solid var(--line-soft); font-size: 13.5px; }
+  .lows-table th {
+    font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.05em; text-transform: uppercase;
+    color: var(--muted); background: var(--paper-sunken); font-weight: 600;
+  }
+  .lows-table tr:last-child td { border-bottom: none; }
+  .lows-table .route-name { font-family: var(--font-display); font-weight: 700; font-size: 14px; }
+  .lows-table td .figure { font-size: 14.5px; }
+  .low-all-time {
+    display: inline-block; font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.03em; text-transform: uppercase;
+    color: var(--sage); background: var(--sage-tint); padding: 1px 7px; border-radius: 100px; margin-left: 6px;
+  }
+
+  /* ---------- Other deals ---------- */
+  .deals-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 10px; }
+  .deal-card { background: var(--paper-raised); border: 1px solid var(--line); border-radius: 10px; padding: 13px 16px; }
+  .deal-card h4 { font-family: var(--font-display); font-size: 14.5px; margin: 0 0 4px; }
+  .deal-price { font-family: var(--font-mono); font-weight: 600; font-size: 17px; color: var(--gold); font-variant-numeric: tabular-nums; }
+  .deal-off { font-family: var(--font-mono); font-size: 10px; color: var(--sage); margin-left: 6px; }
+  .deal-meta { font-size: 11.5px; color: var(--ink-soft); margin: 4px 0 6px; }
+
+  /* ---------- Footer ---------- */
+  footer { border-top: 1px solid var(--line); padding-top: 16px; margin-top: 10px; font-size: 11.5px; color: var(--muted); }
+</style>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow">Toronto Flight Watch · YYZ / YTZ</p>
+    <h1 class="title">Where's cheap from Toronto right now</h1>
+    <div class="meta-row">
+      <span><strong>Updated:</strong> Aug 24, 2026, 8:00am ET</span>
+      <span><strong>Checked:</strong> daily</span>
+    </div>
+  </header>
+
+  <div class="howto">
+    <span>💵 Cash prices → <b>Google Flights</b> → book on the airline's site.</span>
+    <span>✈️ Points → <b>aeroplan.com</b> directly.</span>
+    <span>🎒 Carry-on always included.</span>
+    <span>Tap <b>Source &amp; redeem</b> on any card for details.</span>
+  </div>
+
+  <section>
+    <div class="section-head">
+      <h2 class="section-title">Your Next Trip</h2>
+      <p class="section-note">4 targets, checked every run</p>
+    </div>
+
+    <!-- SFO / SJC -->
+    <div class="trip-card">
+      <div class="trip-head">
+        <h3>San Francisco &amp; San Jose</h3>
+        <span class="badge badge-blocked">Still unverified</span>
+      </div>
+      <div class="trip-dates">Nov 5–8, 5–9, or 6–9, 2026 · 2–3 vacation days</div>
+      <div class="option-grid">
+        <div class="option">
+          <div class="option-label">Cash (estimate)</div>
+          <div class="figure">~$340–450 CAD RT</div>
+          <a class="cta" href="https://www.google.com/travel/flights?q=Flights%20from%20Toronto%20to%20San%20Francisco%20on%202026-11-05%20through%202026-11-09" target="_blank" rel="noopener">Google Flights →</a>
+          <details class="src"><summary></summary><p>Not yet a locked quote — only Basic "from" teasers found. <b>Source:</b> aircanada.com.</p></details>
+        </div>
+        <div class="option">
+          <div class="option-label">Aeroplan points</div>
+          <div class="figure">~25,000 pts + ~$342</div>
+          <a class="cta" href="https://www.aeroplan.com/en/book/flights.html" target="_blank" rel="noopener">aeroplan.com →</a>
+          <details class="src"><summary></summary><p>Confirmed 2026-08-24: 12,500 pts + $171 one-way (Nov 2, 2026), doubled for a rough RT estimate. <b>Source:</b> aircanada.com, live dated example.</p></details>
+        </div>
+      </div>
+      <div class="flag-line"><b>Cash can't be automated here:</b> Google Flights/Kayak/Skyscanner/Porter are unreadable by this tool (JS-only or blocked) — checking Google Flights yourself is the only reliable way to get a real quote.</div>
+    </div>
+
+    <!-- JAPAN -->
+    <div class="trip-card">
+      <div class="trip-head">
+        <h3>Japan (Tokyo)</h3>
+        <span class="badge badge-window">Cherry blossom</span>
+      </div>
+      <div class="trip-dates">~Mar 24 – Apr 8, 2027 · flexible, 1–2 stops OK</div>
+      <div class="option-grid">
+        <div class="option ideal">
+          <div class="option-label">Ideal — lie-flat business</div>
+          <div class="figure">170,000 pts RT</div>
+          <div class="figure-sub">+ ~$400–700 CAD · ANA</div>
+          <a class="cta" href="https://www.aeroplan.com/en/book/flights.html" target="_blank" rel="noopener">aeroplan.com →</a>
+          <details class="src"><summary></summary><p>Aeroplan's search won't show ANA space — find it on Seats.aero/United.com, then call Aeroplan <b>1-888-247-2262</b> to ticket. ≈3.5¢/pt.</p></details>
+        </div>
+        <div class="option">
+          <div class="option-label">Fallback — economy</div>
+          <div class="figure">~$1,514–1,644 CAD</div>
+          <div class="figure-sub">or ~98k pts + $237–304</div>
+          <a class="cta" href="https://www.google.com/travel/flights?q=Flights%20from%20Toronto%20to%20Tokyo%20on%202027-03-24%20through%202027-04-08" target="_blank" rel="noopener">Google Flights →</a>
+          <details class="src"><summary></summary><p>All-time low overall: $1,429 (off-peak dates). <b>Source:</b> aircanada.com fare calendar.</p></details>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEOUL -->
+    <div class="trip-card">
+      <div class="trip-head">
+        <h3>Seoul (ICN)</h3>
+        <span class="badge badge-window">2 fixed windows</span>
+      </div>
+      <div class="trip-dates">Option A: Mar 26–Apr 4 (5 days off) · Option B: Mar 20–Apr 2, 2027 (9 days off)</div>
+      <div class="asiana-warning">⚠ <b>Asiana exits Star Alliance Dec 16–17, 2026</b> — both windows fall after. Old Asiana lie-flat plan is dead; points awards for Asiana travel past that date won't be honored.</div>
+      <div class="option-grid">
+        <div class="option ideal">
+          <div class="option-label">Ideal — lie-flat business (revised)</div>
+          <div class="figure">~205,000 pts RT</div>
+          <div class="figure-sub">connecting partner, fees ~$150–450 est.</div>
+          <a class="cta" href="https://www.aeroplan.com/en/book/flights.html" target="_blank" rel="noopener">aeroplan.com →</a>
+          <details class="src"><summary></summary><p>ANA/United/Turkish/EVA/Singapore/Thai, via a stop. Live seat availability not yet confirmed bookable. AC's own metal is weaker (~220–300k + ~$700–900). ≈2.4–2.7¢/pt est.</p></details>
+        </div>
+        <div class="option">
+          <div class="option-label">Fallback — economy</div>
+          <div class="figure">~$1,400–1,750 CAD</div>
+          <div class="figure-sub">or ~97–100k pts + $104–300</div>
+          <a class="cta" href="https://www.google.com/travel/flights?q=Flights%20from%20Toronto%20to%20Seoul%20on%202027-03-26%20through%202027-04-04" target="_blank" rel="noopener">Google Flights →</a>
+          <details class="src"><summary></summary><p>Range covers both options. <b>Source:</b> aircanada.com fare calendar.</p></details>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <h2 class="section-title">Premium Cabin Watch</h2>
+      <p class="section-note">3.0¢/pt+ = good deal</p>
+    </div>
+    <div class="cabin-card">
+      <div><div class="cabin-route">Japan</div><div class="cabin-seat">Lie-flat</div></div>
+      <div class="cabin-detail">
+        <div class="figure">170,000 pts + ~$400–700</div>
+        <div class="figure-sub">≈3.5¢/pt · ANA-operated, cherry blossom window</div>
+        <div class="date-stamp">Checked Aug 24, 2026</div>
+        <a class="cta" href="https://www.aeroplan.com/en/book/flights.html" target="_blank" rel="noopener">aeroplan.com →</a>
+        <details class="src"><summary></summary><p>Points figure confirmed 2026-08-24 against the Aeroplan reward chart PDF. Cash reference for CPP math: C$6,453 RT, Kayak average, checked 2026-08-22.</p></details>
+      </div>
+      <span class="tier tier-good">Good deal</span>
+    </div>
+    <div class="cabin-card">
+      <div><div class="cabin-route">Seoul</div><div class="cabin-seat">Lie-flat, connecting</div></div>
+      <div class="cabin-detail">
+        <div class="figure">~205,000 pts, +stop</div>
+        <div class="figure-sub">≈2.4–2.7¢/pt est. · not yet confirmed bookable</div>
+        <div class="date-stamp">Checked Aug 24, 2026 · for Mar 2027 windows</div>
+        <a class="cta" href="https://www.aeroplan.com/en/book/flights.html" target="_blank" rel="noopener">aeroplan.com →</a>
+        <details class="src"><summary></summary><p>Chart-derived figure, corroborated 2026-08-24. Cash reference: C$5,747 RT, Kayak average, checked 2026-08-24. For Mar 2027 Next Trip windows.</p></details>
+      </div>
+      <span class="tier tier-watch">Watch</span>
+    </div>
+    <div class="cabin-card">
+      <div><div class="cabin-route">San Francisco</div><div class="cabin-seat">Varies</div></div>
+      <div class="cabin-detail">
+        <div class="figure">50,000 pts + ~$150–200 (floor)</div>
+        <div class="figure-sub">≈2.0–2.9¢/pt realistic</div>
+        <div class="date-stamp">Checked Aug 22, 2026</div>
+        <a class="cta" href="https://www.aeroplan.com/en/book/flights.html" target="_blank" rel="noopener">aeroplan.com →</a>
+        <details class="src"><summary></summary><p>Chart floor, checked 2026-08-22. Cash reference: C$1,930 RT, Kayak average, same date. Current rotation looks all-narrowbody — confirm seat before booking.</p></details>
+      </div>
+      <span class="tier tier-longshot">Long shot</span>
+    </div>
+    <div class="cabin-card">
+      <div><div class="cabin-route">Fort Lauderdale</div><div class="cabin-seat">Usually recliner</div></div>
+      <div class="cabin-detail">
+        <div class="figure">40,000 pts + ~$100–150 (floor)</div>
+        <div class="figure-sub">Cash cross-check still noisy, no clean CPP yet</div>
+        <div class="date-stamp">Checked Aug 24, 2026</div>
+        <a class="cta" href="https://www.aeroplan.com/en/book/flights.html" target="_blank" rel="noopener">aeroplan.com →</a>
+        <details class="src"><summary></summary><p>Chart floor, checked 2026-08-22. Kayak's own page gave $1,007–2,104 RT on the same pull (2026-08-23/24, floor vs. average on an all-dates page) — not a locked-date figure.</p></details>
+      </div>
+      <span class="tier tier-longshot">Long shot</span>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <h2 class="section-title">All-Time Lows</h2>
+      <p class="section-note">General tracking, any dates</p>
+    </div>
+    <div class="lows-table-wrap">
+    <table class="lows-table">
+      <thead><tr><th>Route</th><th>Cash RT</th><th>Aeroplan RT</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="route-name">San Francisco</td>
+          <td>
+            <div class="figure">~$340–450</div>
+            <div class="date-stamp">No locked date · checked Aug 24, 2026</div>
+            <a class="cta" href="https://www.google.com/travel/flights?q=Flights%20from%20Toronto%20to%20San%20Francisco" target="_blank" rel="noopener">Google Flights →</a>
+            <details class="src"><summary></summary><p>Unverified estimate, no locked date — aircanada.com "from" teaser, checked 2026-08-24.</p></details>
+          </td>
+          <td>
+            <div class="figure">~25,000 pts + ~$342</div>
+            <div class="date-stamp">Nov 2, 2026 example · checked Aug 24, 2026</div>
+            <a class="cta" href="https://www.aeroplan.com/en/book/flights.html" target="_blank" rel="noopener">aeroplan.com →</a>
+            <details class="src"><summary></summary><p>Nov 2, 2026 example, aircanada.com, confirmed 2026-08-24.</p></details>
+          </td>
+        </tr>
+        <tr>
+          <td class="route-name">San Jose</td>
+          <td>
+            <div class="figure">~$330–450</div>
+            <div class="date-stamp">No locked date · checked Aug 24, 2026</div>
+            <a class="cta" href="https://www.google.com/travel/flights?q=Flights%20from%20Toronto%20to%20San%20Jose" target="_blank" rel="noopener">Google Flights →</a>
+            <details class="src"><summary></summary><p>Unverified estimate, no locked date — expedia/momondo reference, checked 2026-08-24.</p></details>
+          </td>
+          <td>
+            <div class="figure">~25–45k pts</div>
+            <div class="date-stamp">Unconfirmed · no live example yet</div>
+            <a class="cta" href="https://www.aeroplan.com/en/book/flights.html" target="_blank" rel="noopener">aeroplan.com →</a>
+            <details class="src"><summary></summary><p>Unconfirmed for this city pair, no live example found yet.</p></details>
+          </td>
+        </tr>
+        <tr>
+          <td class="route-name">Fort Lauderdale</td>
+          <td>
+            <div class="figure">~$357</div>
+            <div class="date-stamp">Sep 2026 travel · checked Aug 9, 2026</div>
+            <a class="cta" href="https://www.google.com/travel/flights?q=Flights%20from%20Toronto%20to%20Fort%20Lauderdale%20on%202026-09-11" target="_blank" rel="noopener">Google Flights →</a>
+            <details class="src"><summary></summary><p>Sep 2026 travel, theflightdeal.com post dated 2026-08-09, USD→CAD conversion, not yet live-CAD verified.</p></details>
+          </td>
+          <td>
+            <div class="figure">20–30k pts + $60–120</div>
+            <div class="date-stamp">Fixed chart · checked Aug 24, 2026</div>
+            <a class="cta" href="https://www.aeroplan.com/en/book/flights.html" target="_blank" rel="noopener">aeroplan.com →</a>
+            <details class="src"><summary></summary><p>Fixed partner chart, 501–1,500mi band, re-confirmed 2026-08-24 as the better redemption over AC's one-way dynamic metal.</p></details>
+          </td>
+        </tr>
+        <tr>
+          <td class="route-name">Japan (Tokyo)</td>
+          <td>
+            <div class="figure">$1,429<span class="low-all-time">Low</span></div>
+            <div class="date-stamp">Sep 22–Oct 7, 2026 · checked Aug 22, 2026</div>
+            <a class="cta" href="https://www.google.com/travel/flights?q=Flights%20from%20Toronto%20to%20Tokyo%20on%202026-09-22" target="_blank" rel="noopener">Google Flights →</a>
+            <details class="src"><summary></summary><p>Sep 22–Oct 7, 2026, AC nonstop YYZ–NRT, aircanada.com, confirmed 2026-08-22.</p></details>
+          </td>
+          <td>
+            <div class="figure">~90–100k pts</div>
+            <div class="date-stamp">Fixed chart · checked Aug 22, 2026</div>
+            <a class="cta" href="https://www.aeroplan.com/en/book/flights.html" target="_blank" rel="noopener">aeroplan.com →</a>
+            <details class="src"><summary></summary><p>Fixed chart, 5,001–7,500mi band. For the cherry-blossom-specific window, see Your Next Trip above.</p></details>
+          </td>
+        </tr>
+        <tr>
+          <td class="route-name">Seoul</td>
+          <td>
+            <div class="figure">$1,436</div>
+            <div class="date-stamp">Sep 2026 travel · checked Aug 22, 2026</div>
+            <a class="cta" href="https://www.google.com/travel/flights?q=Flights%20from%20Toronto%20to%20Seoul" target="_blank" rel="noopener">Google Flights →</a>
+            <details class="src"><summary></summary><p>Sep 2026 travel, range $1,393–1,484, aircanada.com fare calendar, confirmed 2026-08-22.</p></details>
+          </td>
+          <td>
+            <div class="figure">~97–100k pts + $104–300</div>
+            <div class="date-stamp">Dec 2026–Jan 2027 examples · checked Aug 24, 2026</div>
+            <a class="cta" href="https://www.aeroplan.com/en/book/flights.html" target="_blank" rel="noopener">aeroplan.com →</a>
+            <details class="src"><summary></summary><p>Chart floor 100,000 pts RT firm; fee range widened 2026-08-24 from live dated examples (Dec 2026–Jan 2027).</p></details>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+    <p class="section-note" style="margin-top:8px;">All prices carry-on-included. Tap <b>Source &amp; redeem</b> on any figure for the exact dates it was checked.</p>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <h2 class="section-title">Other Toronto Deals</h2>
+      <p class="section-note">Opportunistic, any destination</p>
+    </div>
+    <div class="deals-grid">
+      <div class="deal-card">
+        <h4>Portugal</h4>
+        <div class="deal-price">$584<span class="deal-off">−48%</span></div>
+        <div class="deal-meta">TAP, 1 stop, carry-on incl.</div>
+        <a class="cta" href="https://www.google.com/travel/flights?q=Flights%20from%20Toronto%20to%20Lisbon" target="_blank" rel="noopener">Google Flights →</a>
+      </div>
+      <div class="deal-card">
+        <h4>Spain</h4>
+        <div class="deal-price">$574<span class="deal-off">−53%</span></div>
+        <div class="deal-meta">TAP, 1 stop, carry-on incl.</div>
+        <a class="cta" href="https://www.google.com/travel/flights?q=Flights%20from%20Toronto%20to%20Madrid" target="_blank" rel="noopener">Google Flights →</a>
+      </div>
+      <div class="deal-card">
+        <h4>Curaçao</h4>
+        <div class="deal-price">$462<span class="deal-off">−30%</span></div>
+        <div class="deal-meta">AC nonstop, checked bag incl.</div>
+        <a class="cta" href="https://www.google.com/travel/flights?q=Flights%20from%20Toronto%20to%20Curacao" target="_blank" rel="noopener">Google Flights →</a>
+      </div>
+      <div class="deal-card">
+        <h4>Belize City</h4>
+        <div class="deal-price">$450<span class="deal-off">−40%</span></div>
+        <div class="deal-meta">WestJet nonstop, carry-on incl.</div>
+        <a class="cta" href="https://www.google.com/travel/flights?q=Flights%20from%20Toronto%20to%20Belize%20City" target="_blank" rel="noopener">Google Flights →</a>
+      </div>
+      <div class="deal-card">
+        <h4>Recife, Brazil</h4>
+        <div class="deal-price">$570<span class="deal-off">−64%</span></div>
+        <div class="deal-meta">Avianca, 2 stops, e-visa needed</div>
+        <a class="cta" href="https://www.google.com/travel/flights?q=Flights%20from%20Toronto%20to%20Recife" target="_blank" rel="noopener">Google Flights →</a>
+      </div>
+    </div>
+    <p class="section-note" style="margin-top:8px;">Spotted via <b>yyzdeals.com</b> — cited for date confirmation only, never the booking link.</p>
+  </section>
+
+  <footer>
+    Rebuilt fresh every run from a running price log. Checked daily, ~8am Toronto time.
+  </footer>
+
+</div>
