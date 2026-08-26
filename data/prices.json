@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-26T23:21:38.758Z",
+  "generatedAt": "2026-08-26T23:31:23.281Z",
   "source": "flightapi.io (rotating, 1 route/day - see script header)",
   "todaysCheck": {
     "route": "sjc",
@@ -45,12 +45,16 @@
     "sjc": {
       "label": "San Jose",
       "cash": {
-        "ok": false,
-        "reason": "unrecognized response shape - script needs a small update, see console output for raw keys",
-        "lastAttempt": [
-          "2026-11-07",
-          "2026-11-08"
-        ]
+        "ok": true,
+        "roundTripCAD": 459,
+        "carrier": "United",
+        "dates": {
+          "depart": "2026-11-07",
+          "return": "2026-11-08"
+        },
+        "carryOnConfirmed": false,
+        "fareClassConfirmed": false,
+        "bookingUrlSeen": false
       },
       "points": {
         "oneWayPts": 12500,
@@ -60,7 +64,7 @@
         "partnerChartBookable": false,
         "note": "No Star Alliance partner flies this route - real redemption is Air Canada's own dynamic pricing, not this fixed-chart figure. See methodology.md."
       },
-      "checkedAt": "2026-08-26T23:21:38.758Z"
+      "checkedAt": "2026-08-26T23:31:23.281Z"
     },
     "fll": {
       "label": "Fort Lauderdale",
