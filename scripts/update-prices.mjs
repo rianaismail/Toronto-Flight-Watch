@@ -141,28 +141,73 @@ async function searchRoundTrip(origin, dest, departDate, returnDate) {
   return { ok: true, data };
 }
 
-// Defensive parsing: the real response shape wasn't confirmed firsthand (see
-// header note). Tries a few plausible layouts before giving up.
+// Defensive parsing. Confirmed 2026-08-26 against a real response: this is a
+// Skyscanner-style NORMALIZED schema - itineraries/legs/segments/places/
+// carriers/agents are separate top-level collections, cross-referenced by
+// id, rather than nested objects. `itineraries` and `quotes` can each be
+// either an array or an object keyed by id, depending on the exact FlightAPI
+// mode - handled defensively below.
+function asList(x) {
+  if (Array.isArray(x)) return x;
+  if (x && typeof x === "object") return Object.values(x);
+  return [];
+}
+
+function buildCarrierLookup(data) {
+  const lookup = {};
+  for (const c of asList(data.carriers)) {
+    if (c && c.id != null) lookup[c.id] = c.name || c.iata_code || c.iataCode || "unknown";
+  }
+  return lookup;
+}
+
 function extractCheapest(data) {
   const candidates = [];
+  const carrierLookup = buildCarrierLookup(data);
+  const legLookup = {};
+  for (const leg of asList(data.legs)) {
+    if (leg && leg.id != null) legLookup[leg.id] = leg;
+  }
 
-  // Guess 1: { itineraries: [{ pricing_options: [{ price: { amount } }] }] }
-  const itineraries = data.itineraries || data.Itineraries || [];
-  for (const it of itineraries) {
+  function carrierNameForItinerary(it) {
+    const legIds = it.leg_ids || it.legIds || [];
+    const firstLeg = legLookup[legIds[0]] || asList(data.legs)[0];
+    const carrierIds =
+      firstLeg?.marketing_carrier_ids || firstLeg?.marketingCarrierIds || firstLeg?.carrier_ids || [];
+    if (carrierIds.length) return carrierLookup[carrierIds[0]] || "unknown";
+    return "unknown";
+  }
+
+  // Guess 1: normalized `itineraries` (array or id-keyed object), each with
+  // pricing_options[].price.amount (snake_case, confirmed present in this API).
+  for (const it of asList(data.itineraries)) {
     const options = it.pricing_options || it.pricingOptions || [];
     for (const opt of options) {
-      const amount = opt.price?.amount ?? opt.price ?? opt.total ?? null;
-      if (amount != null) {
+      const amount =
+        opt.price?.amount ?? opt.price?.raw ?? opt.price ?? opt.total_price ?? opt.total ?? null;
+      if (amount != null && Number(amount) > 0) {
         candidates.push({
           amount: Number(amount),
-          carrier: it.legs?.[0]?.carriers?.[0] || it.carrier || "unknown",
-          bookingUrl: opt.url || opt.deep_link || null,
+          carrier: carrierNameForItinerary(it),
+          bookingUrl: opt.url || opt.deep_link || opt.deepLink || null,
         });
       }
     }
   }
 
-  // Guess 2: a flatter { data: [{ price, airline }] } shape
+  // Guess 2: a simpler `quotes` collection (older Skyscanner "browse quotes"
+  // style: { min_price: { amount } } or { minPrice: { amount } } per quote).
+  if (!candidates.length) {
+    for (const q of asList(data.quotes)) {
+      const amount =
+        q.min_price?.amount ?? q.minPrice?.amount ?? q.min_price ?? q.minPrice ?? q.price ?? null;
+      if (amount != null && Number(amount) > 0) {
+        candidates.push({ amount: Number(amount), carrier: "unknown", bookingUrl: null });
+      }
+    }
+  }
+
+  // Guess 3: a flatter { data: [{ price, airline }] } shape
   if (!candidates.length && Array.isArray(data.data)) {
     for (const row of data.data) {
       const amount = row.price ?? row.total ?? null;
@@ -174,6 +219,21 @@ function extractCheapest(data) {
 
   if (!candidates.length) return null;
   return candidates.reduce((min, c) => (c.amount < min.amount ? c : min));
+}
+
+// Dumps truncated samples of the collections most likely to hold the price,
+// so a failed parse is diagnosable from the Action log without needing to
+// download the full response.
+function debugDump(data) {
+  const sample = (label, list, n = 1) => {
+    const items = asList(list).slice(0, n);
+    console.log(`  [debug] ${label} (${asList(list).length} total), first ${items.length}:`);
+    console.log(JSON.stringify(items, null, 2).slice(0, 3000));
+  };
+  sample("itineraries", data.itineraries);
+  sample("quotes", data.quotes, 2);
+  sample("legs", data.legs, 2);
+  sample("carriers", data.carriers, 5);
 }
 
 function computePoints(routeKey) {
@@ -231,6 +291,7 @@ async function main() {
     const cheapest = extractCheapest(result.data);
     if (!cheapest) {
       console.warn("  -> response shape didn't match any known layout - see extractCheapest() in this script. Raw keys:", Object.keys(result.data));
+      debugDump(result.data);
       routes[routeKey].cash = {
         ok: false,
         reason: "unrecognized response shape - script needs a small update, see console output for raw keys",
