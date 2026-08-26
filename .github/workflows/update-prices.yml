@@ -1,0 +1,40 @@
+name: Update flight prices
+
+on:
+  schedule:
+    # 12:00 UTC = 8am Toronto during EDT (Mar-Nov). Once Toronto falls back to
+    # EST (~Nov 1), this fires at 7am local - change to "0 13 * * *" then, or
+    # ask Claude to do it.
+    - cron: "0 12 * * *"
+  workflow_dispatch: {} # lets you trigger a run manually from the Actions tab
+
+permissions:
+  contents: write # needed to commit the refreshed data/prices.json back
+
+jobs:
+  update-prices:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Run price update
+        env:
+          FLIGHTAPI_KEY: ${{ secrets.FLIGHTAPI_KEY }}
+        run: node scripts/update-prices.mjs
+
+      - name: Commit updated data if changed
+        run: |
+          git config user.name "flight-tracker-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/prices.json
+          if git diff --cached --quiet; then
+            echo "No price changes - nothing to commit."
+          else
+            git commit -m "chore: daily flight price refresh"
+            git push
+          fi
