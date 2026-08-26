@@ -506,13 +506,23 @@
         const route = data.routes && data.routes[key];
         if (!route) return;
 
-        if (route.cash && route.cash.ok && route.cash.fareClassConfirmed) {
+        if (route.cash && route.cash.ok) {
           const fig = document.getElementById(key + '-cash-figure');
-          if (fig) fig.textContent = '$' + route.cash.roundTripCAD + ' CAD RT';
+          if (fig) {
+            fig.textContent = route.cash.fareClassConfirmed
+              ? '$' + route.cash.roundTripCAD + ' CAD RT'
+              : '~$' + route.cash.roundTripCAD + ' CAD RT (est.)';
+          }
           const src = document.getElementById(key + '-cash-source');
-          if (src && route.checkedAt) {
-            src.textContent =
-              'Confirmed via automated daily check, ' + new Date(route.checkedAt).toLocaleDateString('en-CA') + '.';
+          if (src) {
+            const checkedDate = route.checkedAt ? new Date(route.checkedAt).toLocaleDateString('en-CA') : 'unknown date';
+            const dateRange = route.cash.dates ? route.cash.dates.depart + ' → ' + route.cash.dates.return : 'unknown dates';
+            const carrier = route.cash.carrier ? ' via ' + route.cash.carrier : '';
+            src.textContent = route.cash.fareClassConfirmed
+              ? 'Confirmed via automated daily check' + carrier + ', ' + dateRange + ' (checked ' + checkedDate + ').'
+              : 'Automated check found $' + route.cash.roundTripCAD + ' CAD' + carrier + ' for ' + dateRange +
+                ' (checked ' + checkedDate + ') — carry-on inclusion not confirmed by this data source, ' +
+                'so treat as an estimate, not a locked quote. Verify on Google Flights before booking.';
           }
         }
 
