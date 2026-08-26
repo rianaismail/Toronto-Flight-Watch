@@ -1,0 +1,110 @@
+{
+  "generatedAt": "2026-08-26T14:30:00.000Z",
+  "generatedBy": "seed (manual research, not yet run through the Amadeus automation)",
+  "source": "seed",
+  "nextTrip": {
+    "sfo": {
+      "anchorWeekend": "2026-11-07/2026-11-08",
+      "searchWindow": "2026-11-01/2026-11-14",
+      "maxNights": 7
+    },
+    "sjc": {
+      "anchorWeekend": "2026-11-07/2026-11-08",
+      "searchWindow": "2026-11-01/2026-11-14",
+      "maxNights": 7
+    }
+  },
+  "routes": {
+    "sfo": {
+      "label": "San Francisco",
+      "cash": {
+        "ok": false,
+        "reason": "not yet confirmed - see price-history.md",
+        "roughEstimateRoundTripCAD": [740, 780],
+        "fareClassConfirmed": false
+      },
+      "points": {
+        "oneWayPts": 12500,
+        "roundTripPts": 25000,
+        "feesLowCAD": 150,
+        "feesHighCAD": 350,
+        "partnerChartBookable": false,
+        "note": "No Star Alliance partner flies this route - real redemption is Air Canada's own dynamic pricing."
+      },
+      "checkedAt": "2026-08-26T14:30:00.000Z"
+    },
+    "sjc": {
+      "label": "San Jose",
+      "cash": {
+        "ok": false,
+        "reason": "not yet confirmed - see price-history.md",
+        "roughEstimateRoundTripCAD": [730, 770],
+        "fareClassConfirmed": false
+      },
+      "points": {
+        "oneWayPts": 12500,
+        "roundTripPts": 25000,
+        "feesLowCAD": 150,
+        "feesHighCAD": 350,
+        "partnerChartBookable": false,
+        "note": "No Star Alliance partner flies this route - real redemption is Air Canada's own dynamic pricing."
+      },
+      "checkedAt": "2026-08-26T14:30:00.000Z"
+    },
+    "fll": {
+      "label": "Fort Lauderdale",
+      "cash": {
+        "ok": true,
+        "roundTripCAD": 357,
+        "fareClassConfirmed": true,
+        "note": "USD-converted from a confirmed carry-on-inclusive fare, not yet a native live CAD quote."
+      },
+      "points": {
+        "oneWayPtsOffPeak": 9100,
+        "roundTripPtsOffPeakEstimate": 18200,
+        "feesLowCAD": 248,
+        "feesHighCAD": 342,
+        "roundTripPtsPeakEstimate": 68000,
+        "peakFeesCAD": 990,
+        "partnerChartBookable": false,
+        "note": "No Star Alliance partner flies this route - figures are Air Canada's own dynamic pricing, resolved 2026-08-26."
+      },
+      "checkedAt": "2026-08-26T14:30:00.000Z"
+    },
+    "japan": {
+      "label": "Japan (NRT)",
+      "cash": {
+        "ok": true,
+        "roundTripCAD": 1429,
+        "fareClassConfirmed": true,
+        "cherryBlossomEstimateRoundTripCAD": [1514, 1644]
+      },
+      "points": {
+        "oneWayPts": 49000,
+        "roundTripPts": 98000,
+        "feesLowCAD": 237,
+        "feesHighCAD": 304,
+        "partnerChartBookable": true,
+        "note": "Prefer NRT over HND - consistently cheaper on Air Canada's own calendar."
+      },
+      "checkedAt": "2026-08-26T14:30:00.000Z"
+    },
+    "seoul": {
+      "label": "Seoul",
+      "cash": {
+        "ok": true,
+        "roundTripCAD": 1413,
+        "fareClassConfirmed": true
+      },
+      "points": {
+        "oneWayPts": 48500,
+        "roundTripPts": 97000,
+        "feesLowCAD": 104,
+        "feesHighCAD": 150,
+        "partnerChartBookable": true,
+        "note": "Korean Air flies this route but is SkyTeam, not Aeroplan-bookable."
+      },
+      "checkedAt": "2026-08-26T14:30:00.000Z"
+    }
+  }
+}

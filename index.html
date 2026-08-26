@@ -181,7 +181,7 @@
     <p class="eyebrow">Toronto Flight Watch · YYZ / YTZ</p>
     <h1 class="title">Where's cheap from Toronto right now</h1>
     <div class="meta-row">
-      <span><strong>Updated:</strong> Aug 24, 2026, 8:00am ET</span>
+      <span><strong>Updated:</strong> <span id="last-updated">Aug 26, 2026, ~2:00pm ET</span></span>
       <span><strong>Checked:</strong> daily</span>
     </div>
   </header>
@@ -196,31 +196,54 @@
   <section>
     <div class="section-head">
       <h2 class="section-title">Your Next Trip</h2>
-      <p class="section-note">4 targets, checked every run</p>
+      <p class="section-note">5 targets, checked every run</p>
     </div>
 
-    <!-- SFO / SJC -->
+    <!-- SFO -->
     <div class="trip-card">
       <div class="trip-head">
-        <h3>San Francisco &amp; San Jose</h3>
+        <h3>San Francisco</h3>
         <span class="badge badge-blocked">Still unverified</span>
       </div>
-      <div class="trip-dates">Nov 5–8, 5–9, or 6–9, 2026 · 2–3 vacation days</div>
+      <div class="trip-dates">Up to 7 nights · must include the weekend of Nov 7–8, 2026 · 2–5 vacation days</div>
       <div class="option-grid">
         <div class="option">
           <div class="option-label">Cash (estimate)</div>
-          <div class="figure">~$340–450 CAD RT</div>
-          <a class="cta" href="https://www.google.com/travel/flights?q=Flights%20from%20Toronto%20to%20San%20Francisco%20on%202026-11-05%20through%202026-11-09" target="_blank" rel="noopener">Google Flights →</a>
-          <details class="src"><summary></summary><p>Not yet a locked quote — only Basic "from" teasers found. <b>Source:</b> aircanada.com.</p></details>
+          <div class="figure" id="sfo-cash-figure">~$740–780 CAD RT</div>
+          <a class="cta" href="https://www.google.com/travel/flights?q=Flights%20from%20Toronto%20to%20San%20Francisco%20on%202026-11-06%20through%202026-11-13" target="_blank" rel="noopener">Google Flights →</a>
+          <details class="src"><summary></summary><p id="sfo-cash-source">Dates changed 2026-08-26 — no longer fixed to Nov 5–9, now flexible up to a week anchored on the Nov 7–8 weekend. Not yet a locked quote — Google Flights/Kayak both blocked this search again. A Skyscanner aggregate hinted at RT fares from ~$389, unconfirmed. <b>Source:</b> aircanada.com "from" fare + fare-gap estimate, 2026-08-26.</p></details>
         </div>
         <div class="option">
           <div class="option-label">Aeroplan points</div>
-          <div class="figure">~25,000 pts + ~$342</div>
+          <div class="figure" id="sfo-points-figure">~25,000 pts + ~$150–350</div>
           <a class="cta" href="https://www.aeroplan.com/en/book/flights.html" target="_blank" rel="noopener">aeroplan.com →</a>
-          <details class="src"><summary></summary><p>Confirmed 2026-08-24: 12,500 pts + $171 one-way (Nov 2, 2026), doubled for a rough RT estimate. <b>Source:</b> aircanada.com, live dated example.</p></details>
+          <details class="src"><summary></summary><p>12,500 pts one-way, chart-confirmed. Applies across the whole flexible window (same mileage band). <b>Source:</b> Aeroplan Flight Rewards Chart PDF + live dated examples.</p></details>
         </div>
       </div>
       <div class="flag-line"><b>Cash can't be automated here:</b> Google Flights/Kayak/Skyscanner/Porter are unreadable by this tool (JS-only or blocked) — checking Google Flights yourself is the only reliable way to get a real quote.</div>
+    </div>
+
+    <!-- SJC -->
+    <div class="trip-card">
+      <div class="trip-head">
+        <h3>San Jose</h3>
+        <span class="badge badge-blocked">Still unverified</span>
+      </div>
+      <div class="trip-dates">Aligned to SFO 2026-08-26 · up to 7 nights, same Nov 7–8 anchor weekend</div>
+      <div class="option-grid">
+        <div class="option">
+          <div class="option-label">Cash (estimate)</div>
+          <div class="figure" id="sjc-cash-figure">~$730–770 CAD RT</div>
+          <a class="cta" href="https://www.google.com/travel/flights?q=Flights%20from%20Toronto%20to%20San%20Jose%20on%202026-11-06%20through%202026-11-13" target="_blank" rel="noopener">Google Flights →</a>
+          <details class="src"><summary></summary><p id="sjc-cash-source">Same blocker as SFO — not a locked quote. No nonstop from Toronto (1-stop via Denver/Chicago/Houston/SLC/Seattle), so worth comparing directly against SFO rather than searching in isolation. <b>Source:</b> estimate, 2026-08-26.</p></details>
+        </div>
+        <div class="option">
+          <div class="option-label">Aeroplan points</div>
+          <div class="figure" id="sjc-points-figure">~25,000 pts + ~$150–350</div>
+          <a class="cta" href="https://www.aeroplan.com/en/book/flights.html" target="_blank" rel="noopener">aeroplan.com →</a>
+          <details class="src"><summary></summary><p>Same mileage band as SFO — chart-confirmed, not independently live-checked for SJC specifically.</p></details>
+        </div>
+      </div>
     </div>
 
     <!-- JAPAN -->
@@ -461,3 +484,49 @@
   </footer>
 
 </div>
+
+<script>
+  // Overlays live figures from data/prices.json, refreshed daily by the
+  // GitHub Actions workflow (see automation/INTEGRATION.md in this repo).
+  // Falls back silently to the static text above if the file is missing or
+  // a route hasn't got a confirmed cash figure yet.
+  fetch('data/prices.json')
+    .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
+    .then((data) => {
+      const updatedEl = document.getElementById('last-updated');
+      if (updatedEl && data.generatedAt) {
+        updatedEl.textContent = new Date(data.generatedAt).toLocaleString('en-CA', {
+          dateStyle: 'medium',
+          timeStyle: 'short',
+          timeZone: 'America/Toronto',
+        });
+      }
+
+      ['sfo', 'sjc'].forEach((key) => {
+        const route = data.routes && data.routes[key];
+        if (!route) return;
+
+        if (route.cash && route.cash.ok && route.cash.fareClassConfirmed) {
+          const fig = document.getElementById(key + '-cash-figure');
+          if (fig) fig.textContent = '$' + route.cash.roundTripCAD + ' CAD RT';
+          const src = document.getElementById(key + '-cash-source');
+          if (src && route.checkedAt) {
+            src.textContent =
+              'Confirmed via automated daily check, ' + new Date(route.checkedAt).toLocaleDateString('en-CA') + '.';
+          }
+        }
+
+        if (route.points) {
+          const fig = document.getElementById(key + '-points-figure');
+          if (fig) {
+            fig.textContent =
+              '~' + route.points.roundTripPts.toLocaleString('en-CA') +
+              ' pts + ~$' + route.points.feesLowCAD + '–' + route.points.feesHighCAD;
+          }
+        }
+      });
+    })
+    .catch(() => {
+      /* data/prices.json not present yet, or a route isn't confirmed — static figures above stand as-is */
+    });
+</script>
