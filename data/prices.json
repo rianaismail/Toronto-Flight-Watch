@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-08-29T12:02:18.262Z",
+  "generatedAt": "2026-08-30T12:01:59.376Z",
   "source": "flightapi.io (rotating, 1 route/day - see script header)",
   "todaysCheck": {
-    "route": "japan",
+    "route": "seoul",
     "combo": [
-      "2026-10-28",
-      "2026-11-07"
+      "2026-10-29",
+      "2026-11-08"
     ]
   },
   "nextTrip": {
@@ -118,8 +118,15 @@
       "label": "Seoul",
       "cash": {
         "ok": true,
-        "roundTripCAD": 1413,
-        "fareClassConfirmed": true
+        "roundTripCAD": 1809,
+        "carrier": "Korean Air",
+        "dates": {
+          "depart": "2026-10-29",
+          "return": "2026-11-08"
+        },
+        "carryOnConfirmed": false,
+        "fareClassConfirmed": false,
+        "bookingUrlSeen": false
       },
       "points": {
         "oneWayPts": 50000,
@@ -129,7 +136,7 @@
         "partnerChartBookable": true,
         "note": "Chart-bookable via a genuine Star Alliance partner award."
       },
-      "checkedAt": "2026-08-26T14:30:00.000Z"
+      "checkedAt": "2026-08-30T12:01:59.376Z"
     }
   }
 }
