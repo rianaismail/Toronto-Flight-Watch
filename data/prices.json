@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-08-30T12:01:59.376Z",
+  "generatedAt": "2026-08-31T12:02:24.545Z",
   "source": "flightapi.io (rotating, 1 route/day - see script header)",
   "todaysCheck": {
-    "route": "seoul",
+    "route": "sfo",
     "combo": [
-      "2026-10-29",
+      "2026-11-07",
       "2026-11-08"
     ]
   },
@@ -24,13 +24,16 @@
     "sfo": {
       "label": "San Francisco",
       "cash": {
-        "ok": false,
-        "reason": "not yet confirmed - see price-history.md",
-        "roughEstimateRoundTripCAD": [
-          740,
-          780
-        ],
-        "fareClassConfirmed": false
+        "ok": true,
+        "roundTripCAD": 595,
+        "carrier": "Air Transat",
+        "dates": {
+          "depart": "2026-11-07",
+          "return": "2026-11-08"
+        },
+        "carryOnConfirmed": false,
+        "fareClassConfirmed": false,
+        "bookingUrlSeen": false
       },
       "points": {
         "oneWayPts": 12500,
@@ -40,7 +43,7 @@
         "partnerChartBookable": false,
         "note": "No Star Alliance partner flies this route - real redemption is Air Canada's own dynamic pricing, not this fixed-chart figure. See methodology.md."
       },
-      "checkedAt": "2026-08-26T14:30:00.000Z"
+      "checkedAt": "2026-08-31T12:02:24.545Z"
     },
     "sjc": {
       "label": "San Jose",
