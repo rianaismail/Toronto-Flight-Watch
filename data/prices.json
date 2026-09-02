@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-09-01T12:03:28.999Z",
+  "generatedAt": "2026-09-02T12:03:26.879Z",
   "source": "flightapi.io (rotating, 1 route/day - see script header)",
   "todaysCheck": {
     "route": "sfo",
     "combo": [
-      "2026-11-06",
-      "2026-11-09"
+      "2026-11-04",
+      "2026-11-11"
     ]
   },
   "nextTrip": {
@@ -25,11 +25,11 @@
       "label": "San Francisco",
       "cash": {
         "ok": true,
-        "roundTripCAD": 595,
-        "carrier": "Air Transat",
+        "roundTripCAD": 460,
+        "carrier": "Porter Airlines",
         "dates": {
-          "depart": "2026-11-06",
-          "return": "2026-11-09"
+          "depart": "2026-11-04",
+          "return": "2026-11-11"
         },
         "carryOnConfirmed": false,
         "fareClassConfirmed": false,
@@ -43,7 +43,7 @@
         "partnerChartBookable": false,
         "note": "No Star Alliance partner flies this route - real redemption is Air Canada's own dynamic pricing, not this fixed-chart figure. See methodology.md."
       },
-      "checkedAt": "2026-09-01T12:03:28.999Z"
+      "checkedAt": "2026-09-02T12:03:26.879Z"
     },
     "sjc": {
       "label": "San Jose",
