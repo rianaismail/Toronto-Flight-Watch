@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-09-05T12:03:20.853Z",
+  "generatedAt": "2026-09-06T12:03:22.501Z",
   "source": "flightapi.io (rotating, 1 route/day - see script header)",
   "todaysCheck": {
-    "route": "fll",
+    "route": "japan",
     "combo": [
-      "2026-10-20",
-      "2026-10-27"
+      "2026-11-05",
+      "2026-11-15"
     ]
   },
   "nextTrip": {
@@ -93,11 +93,11 @@
       "label": "Japan (NRT)",
       "cash": {
         "ok": true,
-        "roundTripCAD": 1604,
-        "carrier": "Flair Airlines",
+        "roundTripCAD": 2092,
+        "carrier": "Korean Air",
         "dates": {
-          "depart": "2026-10-28",
-          "return": "2026-11-07"
+          "depart": "2026-11-05",
+          "return": "2026-11-15"
         },
         "carryOnConfirmed": false,
         "fareClassConfirmed": false,
@@ -111,7 +111,7 @@
         "partnerChartBookable": true,
         "note": "Chart-bookable via a genuine Star Alliance partner award."
       },
-      "checkedAt": "2026-08-29T12:02:18.262Z"
+      "checkedAt": "2026-09-06T12:03:22.501Z"
     },
     "seoul": {
       "label": "Seoul",
