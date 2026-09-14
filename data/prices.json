@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-09-13T12:03:10.833Z",
+  "generatedAt": "2026-09-14T12:03:41.299Z",
   "source": "flightapi.io (rotating, 1 route/day - see script header)",
   "todaysCheck": {
-    "route": "fll",
+    "route": "japan",
     "combo": [
-      "2026-10-28",
-      "2026-11-04"
+      "2026-11-13",
+      "2026-11-23"
     ]
   },
   "nextTrip": {
@@ -84,16 +84,12 @@
     "japan": {
       "label": "Japan (NRT)",
       "cash": {
-        "ok": true,
-        "roundTripCAD": 2092,
-        "carrier": "Korean Air",
-        "dates": {
-          "depart": "2026-11-05",
-          "return": "2026-11-15"
-        },
-        "carryOnConfirmed": false,
-        "fareClassConfirmed": false,
-        "bookingUrlSeen": false
+        "ok": false,
+        "reason": "403 {\"message\":\"Your request quota has reached its maximum limits. Kindly upgrade your plan to continue using it.\",\"help\":\"If you need more FREE credits before upgrading then email us at info@flightapi.io\",\"upgradeLink\":\"https://api.flightapi.io/pricing\"}",
+        "lastAttempt": [
+          "2026-11-13",
+          "2026-11-23"
+        ]
       },
       "points": {
         "oneWayPts": 50000,
@@ -103,7 +99,7 @@
         "partnerChartBookable": true,
         "note": "Chart-bookable via a genuine Star Alliance partner award."
       },
-      "checkedAt": "2026-09-06T12:03:22.501Z"
+      "checkedAt": "2026-09-14T12:03:41.299Z"
     },
     "seoul": {
       "label": "Seoul",
