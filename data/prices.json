@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-09-14T12:03:41.299Z",
+  "generatedAt": "2026-09-15T12:03:24.942Z",
   "source": "flightapi.io (rotating, 1 route/day - see script header)",
   "todaysCheck": {
-    "route": "japan",
+    "route": "seoul",
     "combo": [
-      "2026-11-13",
-      "2026-11-23"
+      "2026-11-14",
+      "2026-11-24"
     ]
   },
   "nextTrip": {
@@ -104,16 +104,12 @@
     "seoul": {
       "label": "Seoul",
       "cash": {
-        "ok": true,
-        "roundTripCAD": 2217,
-        "carrier": "KLM",
-        "dates": {
-          "depart": "2026-11-06",
-          "return": "2026-11-16"
-        },
-        "carryOnConfirmed": false,
-        "fareClassConfirmed": false,
-        "bookingUrlSeen": false
+        "ok": false,
+        "reason": "403 {\"message\":\"Your request quota has reached its maximum limits. Kindly upgrade your plan to continue using it.\",\"help\":\"If you need more FREE credits before upgrading then email us at info@flightapi.io\",\"upgradeLink\":\"https://api.flightapi.io/pricing\"}",
+        "lastAttempt": [
+          "2026-11-14",
+          "2026-11-24"
+        ]
       },
       "points": {
         "oneWayPts": 50000,
@@ -123,7 +119,7 @@
         "partnerChartBookable": true,
         "note": "Chart-bookable via a genuine Star Alliance partner award."
       },
-      "checkedAt": "2026-09-07T12:03:21.214Z"
+      "checkedAt": "2026-09-15T12:03:24.942Z"
     }
   }
 }
