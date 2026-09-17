@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-09-16T12:03:31.081Z",
+  "generatedAt": "2026-09-17T12:03:21.835Z",
   "source": "flightapi.io (rotating, 1 route/day - see script header)",
   "todaysCheck": {
     "route": "sfo",
     "combo": [
-      "2026-11-07",
-      "2026-11-08"
+      "2026-11-06",
+      "2026-11-09"
     ]
   },
   "nextTrip": {
@@ -27,8 +27,8 @@
         "ok": false,
         "reason": "403 {\"message\":\"Your request quota has reached its maximum limits. Kindly upgrade your plan to continue using it.\",\"help\":\"If you need more FREE credits before upgrading then email us at info@flightapi.io\",\"upgradeLink\":\"https://api.flightapi.io/pricing\"}",
         "lastAttempt": [
-          "2026-11-07",
-          "2026-11-08"
+          "2026-11-06",
+          "2026-11-09"
         ]
       },
       "points": {
@@ -39,7 +39,7 @@
         "partnerChartBookable": false,
         "note": "No Star Alliance partner flies this route - real redemption is Air Canada's own dynamic pricing, not this fixed-chart figure. See methodology.md."
       },
-      "checkedAt": "2026-09-16T12:03:31.081Z"
+      "checkedAt": "2026-09-17T12:03:21.835Z"
     },
     "sjc": {
       "label": "San Jose",
