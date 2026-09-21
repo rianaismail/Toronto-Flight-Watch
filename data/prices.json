@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-09-20T12:03:01.705Z",
+  "generatedAt": "2026-09-21T12:03:15.052Z",
   "source": "flightapi.io (rotating, 1 route/day - see script header)",
   "todaysCheck": {
-    "route": "sjc",
+    "route": "fll",
     "combo": [
-      "2026-11-06",
-      "2026-11-09"
+      "2026-11-05",
+      "2026-11-12"
     ]
   },
   "nextTrip": {
@@ -67,8 +67,8 @@
         "ok": false,
         "reason": "403 {\"message\":\"Your request quota has reached its maximum limits. Kindly upgrade your plan to continue using it.\",\"help\":\"If you need more FREE credits before upgrading then email us at info@flightapi.io\",\"upgradeLink\":\"https://api.flightapi.io/pricing\"}",
         "lastAttempt": [
-          "2026-10-28",
-          "2026-11-04"
+          "2026-11-05",
+          "2026-11-12"
         ]
       },
       "points": {
@@ -79,7 +79,7 @@
         "partnerChartBookable": false,
         "note": "No Star Alliance partner flies this route - real redemption is Air Canada's own dynamic pricing, not this fixed-chart figure. See methodology.md."
       },
-      "checkedAt": "2026-09-13T12:03:10.833Z"
+      "checkedAt": "2026-09-21T12:03:15.052Z"
     },
     "japan": {
       "label": "Japan (NRT)",
