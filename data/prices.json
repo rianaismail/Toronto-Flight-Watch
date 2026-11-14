@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-11-13T18:53:51.549Z",
+  "generatedAt": "2026-11-14T17:26:11.657Z",
   "source": "flightapi.io (rotating, 1 route/day - see script header)",
   "todaysCheck": {
-    "route": "sfo",
+    "route": "sjc",
     "combo": [
-      "2026-11-04",
-      "2026-11-11"
+      "2026-11-07",
+      "2026-11-08"
     ]
   },
   "nextTrip": {
@@ -47,8 +47,8 @@
         "ok": false,
         "reason": "404 {\"message\":\"Your departure date(YYY-MM-DD) has already passed.\"}",
         "lastAttempt": [
-          "2026-11-06",
-          "2026-11-09"
+          "2026-11-07",
+          "2026-11-08"
         ]
       },
       "points": {
@@ -59,7 +59,7 @@
         "partnerChartBookable": false,
         "note": "No Star Alliance partner flies this route - real redemption is Air Canada's own dynamic pricing, not this fixed-chart figure. See methodology.md."
       },
-      "checkedAt": "2026-11-07T17:07:20.289Z"
+      "checkedAt": "2026-11-14T17:26:11.657Z"
     },
     "fll": {
       "label": "Fort Lauderdale",
