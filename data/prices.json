@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-11-25T20:48:07.013Z",
+  "generatedAt": "2026-11-26T20:39:56.945Z",
   "source": "flightapi.io (rotating, 1 route/day - see script header)",
   "todaysCheck": {
-    "route": "japan",
+    "route": "seoul",
     "combo": [
-      "2027-01-24",
-      "2027-02-03"
+      "2027-01-25",
+      "2027-02-04"
     ]
   },
   "nextTrip": {
@@ -107,8 +107,8 @@
         "ok": false,
         "reason": "403 {\"message\":\"Your request quota has reached its maximum limits. Kindly upgrade your plan to continue using it.\",\"help\":\"If you need more FREE credits before upgrading then email us at info@flightapi.io\",\"upgradeLink\":\"https://api.flightapi.io/pricing\"}",
         "lastAttempt": [
-          "2027-01-17",
-          "2027-01-27"
+          "2027-01-25",
+          "2027-02-04"
         ]
       },
       "points": {
@@ -119,7 +119,7 @@
         "partnerChartBookable": true,
         "note": "Chart-bookable via a genuine Star Alliance partner award."
       },
-      "checkedAt": "2026-11-18T19:42:25.955Z"
+      "checkedAt": "2026-11-26T20:39:56.945Z"
     }
   }
 }
