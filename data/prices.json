@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-11-26T20:39:56.945Z",
+  "generatedAt": "2026-11-27T20:26:11.432Z",
   "source": "flightapi.io (rotating, 1 route/day - see script header)",
   "todaysCheck": {
-    "route": "seoul",
+    "route": "sfo",
     "combo": [
-      "2027-01-25",
-      "2027-02-04"
+      "2026-11-07",
+      "2026-11-08"
     ]
   },
   "nextTrip": {
@@ -27,8 +27,8 @@
         "ok": false,
         "reason": "404 {\"message\":\"Your departure date(YYY-MM-DD) has already passed.\"}",
         "lastAttempt": [
-          "2026-11-04",
-          "2026-11-11"
+          "2026-11-07",
+          "2026-11-08"
         ]
       },
       "points": {
@@ -39,7 +39,7 @@
         "partnerChartBookable": false,
         "note": "No Star Alliance partner flies this route - real redemption is Air Canada's own dynamic pricing, not this fixed-chart figure. See methodology.md."
       },
-      "checkedAt": "2026-11-21T18:24:30.451Z"
+      "checkedAt": "2026-11-27T20:26:11.432Z"
     },
     "sjc": {
       "label": "San Jose",
